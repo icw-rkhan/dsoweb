@@ -94,6 +94,7 @@ export class SponsorComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.post = p;
 
         // change Pre tag to Div tag
+        this.setDropcap();
         this.postSafeContent = this.sanitizeHTML(this.changePreToDiv(p.content));
         this.progress.complete();
         postSub.unsubscribe();
@@ -109,13 +110,18 @@ export class SponsorComponent implements OnInit, AfterViewChecked, OnDestroy {
   ngAfterViewChecked(): void {
     if (this.postContent.nativeElement.innerHTML !== '' && !this.postRendered) {
       this.postRendered = true;
-      
+
       setTimeout(() => {
        this.changeLayoutOfPost();
        this.removeAuthorInfo();
        this.fetchAuthorInfo();
       }, 0);
     }
+  }
+
+  setDropcap(): void {
+    this.post.content = this.post.content.replace(/<p[^>]*>(\w)/,  '<p class="first-big">$1');
+    this.post.content = this.post.content.replace(/<p[^>]*><span[^>]*>(\w)/,  '<p class="first-big"><span>$1');
   }
 
   ngOnDestroy(): void {

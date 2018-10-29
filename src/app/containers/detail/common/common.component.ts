@@ -89,7 +89,7 @@ export class CommonComponent implements OnInit, AfterViewChecked, OnDestroy {
 
       const postSub = this.postService.fetchById(this.postId).subscribe(p => {
         this.post = p;
-
+        this.setDropcap();
         // change Pre tag to Div tag
         this.postSafeContent = this.sanitizeHTML(this.changePreToDiv(p.content));
         this.progress.complete();
@@ -105,10 +105,15 @@ export class CommonComponent implements OnInit, AfterViewChecked, OnDestroy {
     });
   }
 
+  setDropcap(): void {
+    this.post.content = this.post.content.replace(/<p[^>]*>(\w)/,  '<p class="first-big">$1');
+    this.post.content = this.post.content.replace(/<p[^>]*><span[^>]*>(\w)/,  '<p class="first-big"><span>$1');
+  }
+
   ngAfterViewChecked(): void {
     if (this.postContent.nativeElement.innerHTML !== '' && !this.postRendered) {
       this.postRendered = true;
-      
+
       setTimeout(() => {
        this.changeLayoutOfPost();
        this.removeAuthorInfo();
