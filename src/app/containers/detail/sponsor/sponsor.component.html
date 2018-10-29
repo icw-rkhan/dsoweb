@@ -44,9 +44,6 @@
             </mat-menu>
         </div>
     </div>
-    <div id="tLoad" [innerHtml]="post.content" hidden>
-        {{fetchAuthorInfo()}}
-    </div>
     <div class="author" [class.author-container]="isAuthorVisible" fxLayout="row" fxLayoutAlign="start center">
         <div id="author-avatar">
             <span>By</span><img src="assets/images/logo-color.png">
@@ -60,8 +57,9 @@
             </p>
         </div>
     </div>
-    <div id="contents" class="inner-content" [innerHtml]="post.content">
+    <div id="contents" #postContent class="inner-content" [innerHtml]="postSafeContent">
     </div>
+    <a *ngIf="showReference" (click)="onClickReference()" [ngClass]="{'show-more-btn': showReferenceState === 'Show more', 'show-less-btn': showReferenceState === 'Show less'}">{{showReferenceState}}</a>
     <div class="inner-content sponsor" fxLayout="column" fxLayoutAlign="center center">
         <span *ngIf="isGsk(post.tags)" class="label-sponsor">Want more content from GSK?</span>
         <span *ngIf="isAlign(post.tags)" class="label-sponsor">Want more content from Align?</span>
