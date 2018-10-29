@@ -50,6 +50,7 @@ export class SponsorComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
   @ViewChild('postContent') postContent: ElementRef;
+  @ViewChild('authorContent') authorContent: ElementRef;
 
   constructor(
     private router: Router,
@@ -170,7 +171,7 @@ export class SponsorComponent implements OnInit, AfterViewChecked, OnDestroy {
             break;
           case 'ol':
             const prevElement = tag[i].previousElementSibling;
-            if (prevElement.tagName === 'H2' && prevElement.innerHTML.indexOf('References') > -1) {
+            if (prevElement && prevElement.tagName === 'H2' && prevElement.innerHTML.indexOf('References') > -1) {
               if (tag[i].children.length > 5) {
                 tag[i].classList.add('show-more');
                 setTimeout(() => {
@@ -289,30 +290,28 @@ export class SponsorComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   // fetch an author/speaker's name
   fetchAuthorInfo() {
-    const parentTag = document.getElementById('tLoad');
-
-    const tag = parentTag.getElementsByTagName('p');
-    const videoTag = parentTag.getElementsByTagName('video');
-
-    if (tag && tag.length > 0) {
+    const regex = /(<p[^>]*>.*?<\/p>)/gs;
+    const paragraphs = this.post.content.match(regex);
+    if (paragraphs && paragraphs.length > 0) {
       let authorTag;
-      if (videoTag && videoTag.length > 0 && !tag[0].innerHTML.includes('(')) {
-        authorTag = tag[1].innerHTML;
-      } else if (tag[0].innerHTML.includes('(')) {
-        authorTag = tag[0].innerHTML;
+      if (this.post.content.indexOf('<video') > -1 && paragraphs[0].indexOf('(') === -1) {
+        authorTag = paragraphs[1];
+      } else if (paragraphs[0].indexOf('(') > -1) {
+        authorTag = paragraphs[0];
       } else {
-        return;
+        this.authorContent.nativeElement.style.display = 'none';
       }
-
+      
       if (authorTag.includes('strong')) {
         authorTag = authorTag.replace('<strong>', '');
         authorTag = authorTag.replace('</strong>', '');
       }
+      authorTag = authorTag.replace('<p>', '');
+      authorTag = authorTag.replace('</p>', '');
 
-      const authorArr = authorTag.split('<br>');
+      const authorArr = authorTag.split('<br />');
       let authorName = authorArr.length > 0 ? authorArr[0] : null;
       let authorInfo = authorArr.length > 1 ? authorArr[1] : null;
-
       if (authorName.includes('(') && authorName.includes(')')) {
         if (authorName.includes('By')) {
           authorName = authorName.replace('By', '');
@@ -377,11 +376,11 @@ export class SponsorComponent implements OnInit, AfterViewChecked, OnDestroy {
   activeAuthorLayout() {
     this.isAuthorVisible = true;
 
-    if (!this.authorName.includes('DSODentist')) {
-      document.getElementById('author-avatar').style.display = 'none';
-    } else {
-      this.authorName = '';
-    }
+    // if (!this.authorName.includes('DSODentist')) {
+    //   document.getElementById('author-avatar').style.display = 'none';
+    // } else {
+    //   this.authorName = '';
+    // }
 
     if (this.authorInfo) {
       document.getElementById('author-info').style.marginTop = '5px';
