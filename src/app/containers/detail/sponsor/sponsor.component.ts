@@ -1,4 +1,5 @@
-import {Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, HostListener, ElementRef, AfterViewChecked } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MatSnackBar, MatMenuTrigger } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgProgress } from '@ngx-progressbar/core';
@@ -21,15 +22,19 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './sponsor.component.html',
   styleUrls: ['./sponsor.component.scss']
 })
-export class SponsorComponent implements OnInit, OnDestroy {
+export class SponsorComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   post: Post;
+  postSafeContent: SafeHtml;
+  postRendered: boolean;
   rate: number;
   postId: number;
   authorName: string;
   authorInfo: string;
   review_count: number;
   isAuthorVisible: boolean;
+  showReference: boolean;
+  showReferenceState: string;
 
   comments: Comment[];
 
@@ -44,6 +49,7 @@ export class SponsorComponent implements OnInit, OnDestroy {
   ];
 
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+  @ViewChild('postContent') postContent: ElementRef;
 
   constructor(
     private router: Router,
@@ -53,11 +59,16 @@ export class SponsorComponent implements OnInit, OnDestroy {
     private postService: PostService,
     private authService: AuthService,
     private commentService: CommentService,
-    private bookmarkService: BookmarkService) {
+    private bookmarkService: BookmarkService,
+    private sanitizer: DomSanitizer) {
 
     this.rate = 0;
     this.review_count = 0;
     this.isAuthorVisible = false;
+    this.showReferenceState = 'Show more';
+    this.showReference = false;
+    this.postRendered = false;
+    this.postSafeContent = '';
 
     this.post = new Post();
   }
@@ -83,13 +94,7 @@ export class SponsorComponent implements OnInit, OnDestroy {
         this.post = p;
 
         // change Pre tag to Div tag
-        this.post.content = this.changePreToDiv(this.post.content);
-
-        setTimeout(() => {
-          this.changeLayoutOfPost();
-          this.removeAuthorInfo();
-        }, 0);
-
+        this.postSafeContent = this.sanitizeHTML(this.changePreToDiv(p.content));
         this.progress.complete();
         postSub.unsubscribe();
       },
@@ -99,6 +104,18 @@ export class SponsorComponent implements OnInit, OnDestroy {
         postSub.unsubscribe();
       });
     });
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.postContent.nativeElement.innerHTML !== '' && !this.postRendered) {
+      this.postRendered = true;
+      
+      setTimeout(() => {
+       this.changeLayoutOfPost();
+       this.removeAuthorInfo();
+       this.fetchAuthorInfo();
+      }, 0);
+    }
   }
 
   ngOnDestroy(): void {
@@ -127,12 +144,8 @@ export class SponsorComponent implements OnInit, OnDestroy {
 
   // change the layout of a post
   changeLayoutOfPost() {
-    this.reLayout('a');
-    this.reLayout('h2');
-    this.reLayout('img');
+    // this.reLayout('a');
     this.reLayout('div');
-    this.reLayout('video');
-    this.reLayout('audio');
     this.reLayout('table');
     this.reLayout('figcaption');
   }
@@ -146,22 +159,29 @@ export class SponsorComponent implements OnInit, OnDestroy {
 
       for (i = 0; i < tag.length; i++) {
         switch (tagName) {
-          case 'h2':
-            tag[i].style.fontFamily = 'SFUI';
-            tag[i].style.fontSize = '18px';
-            tag[i].style.fontWeight = '600';
-            break;
           case 'div':
             this.changeFormatOfCallOut(tag[i]);
-            break;
-          case 'video':
-            tag[i].style.backgroundColor = 'black';
             break;
           case 'figcaption':
             tag[i].innerHTML = this.changeFont(tag[i]);
             break;
           case 'table':
             this.changeTableFormat(tag[i]);
+            break;
+          case 'ol':
+            const prevElement = tag[i].previousElementSibling;
+            if (prevElement.tagName === 'H2' && prevElement.innerHTML.indexOf('References') > -1) {
+              if (tag[i].children.length > 5) {
+                tag[i].classList.add('show-more');
+                setTimeout(() => {
+                  this.showReference = true;
+                });
+              } else {
+                setTimeout(() => {
+                  this.showReference = false;
+                });
+              }
+            }
             break;
           case 'a':
             let url = tag[i].getAttribute('href');
@@ -335,6 +355,24 @@ export class SponsorComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+  sanitizeHTML(html) {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+
+  onClickReference() {
+    const reference = this.postContent.nativeElement.getElementsByTagName('ol')[0];
+    if (reference.classList.contains('show-more')) {
+      this.showReferenceState = 'Show less';
+      reference.classList.remove('show-more');
+      reference.classList.add('show-less');
+    } else {
+      this.showReferenceState = 'Show more';
+      reference.classList.remove('show-less');
+      reference.classList.add('show-more');
+    }
+  }
+
 
   activeAuthorLayout() {
     this.isAuthorVisible = true;

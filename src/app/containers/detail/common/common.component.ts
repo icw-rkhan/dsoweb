@@ -107,7 +107,6 @@ export class CommonComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   ngAfterViewChecked(): void {
     if (this.postContent.nativeElement.innerHTML !== '' && !this.postRendered) {
-      console.log('hey');
       this.postRendered = true;
       
       setTimeout(() => {

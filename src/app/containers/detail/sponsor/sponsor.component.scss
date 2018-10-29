@@ -238,3 +238,77 @@ p {
 div {
     background-color: #fff;
 }
+
+
+.show-more-btn {
+    text-decoration: underline !important;
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    margin-top: -60px;
+    margin-bottom: 80px;
+    z-index: 999;
+    position: relative;
+}
+
+.show-less-btn {
+    text-decoration: underline !important;
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    margin-bottom: 40px;
+}
+
+:host ::ng-deep {
+    h2 {
+        font-family: "SFUI";
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    iframe {
+        max-width: 100%;
+    }
+
+    video {
+        max-width: 100%;
+        background-color: black;
+    }
+
+    figure {
+        max-width: 100%;
+        height: auto;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .show-more {
+        max-height: 400px;
+        overflow: hidden;
+        position: relative;
+        &:after {
+            content: '';
+            display: block;
+            z-index: 999;
+            position: absolute;
+            bottom: -20px;
+            width: 100%;
+            height: 60px;
+            background-image: linear-gradient(to bottom, transparent 0%, white 80%);
+        }
+    }
+
+    .show-less {
+        max-height: 2000px;
+    }
+
+    ol {
+        font-size: 13px;
+        padding-left: 15px !important;
+        margin-left: 0 !important;
+        margin-bottom: 40px !important;
+    }
+}
