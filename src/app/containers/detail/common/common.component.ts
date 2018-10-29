@@ -108,11 +108,11 @@ export class CommonComponent implements OnInit, AfterViewChecked, OnDestroy {
   ngAfterViewChecked(): void {
     if (this.postContent.nativeElement.innerHTML !== '' && !this.postRendered) {
       this.postRendered = true;
-      
+
       setTimeout(() => {
        this.changeLayoutOfPost();
-       this.removeAuthorInfo();
        this.fetchAuthorInfo();
+       this.removeAuthorInfo();
       }, 0);
     }
   }
