@@ -20,9 +20,9 @@
         <img src="../../../assets/images/sponsor/nobel-header.jpg" *ngIf="onCheckSponsorType(post.tags,502)"/>
       </div>
     </ng-template>
-    <img *ngIf="isGsk(post.tags)" class="inner-thumbnail" src = "assets/images/sponsor/gsk-banner.png" (click)="onPostSponsor('gsk')">
-    <img *ngIf="isAlign(post.tags)" class="inner-thumbnail" src = "assets/images/sponsor/align-banner.png" (click)="onPostSponsor('align')">
-    <img *ngIf="isNobel(post.tags)" class="inner-thumbnail" src = "assets/images/sponsor/nobel-banner.png" (click)="onPostSponsor('nobel')">
+    <img *ngIf="isGsk(post.tags)" class="inner-thumbnail" src = "assets/images/sponsor/gsk-banner.jpg" (click)="onPostSponsor('gsk')">
+    <img *ngIf="isAlign(post.tags)" class="inner-thumbnail" src = "assets/images/sponsor/align-banner.jpg" (click)="onPostSponsor('align')">
+    <img *ngIf="isNobel(post.tags)" class="inner-thumbnail" src = "assets/images/sponsor/nobel-banner.jpg" (click)="onPostSponsor('nobel')">
     <div class="content">
       <div class="content-title">
         <span class="mat-h2" (click)="onViewDetail()" [innerHtml]="post.title"></span>
