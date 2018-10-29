@@ -83,7 +83,6 @@ export class CommonComponent implements OnInit, AfterViewChecked, OnDestroy {
         commentSub.unsubscribe();
       },
       err => {
-
         this.progress.complete();
         commentSub.unsubscribe();
       });
@@ -92,19 +91,16 @@ export class CommonComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.post = p;
 
         // change Pre tag to Div tag
-        this.post.content = this.changePreToDiv(this.post.content);
-        this.postSafeContent = this.sanitizeHTML(this.post.content);
+        this.postSafeContent = this.sanitizeHTML(this.changePreToDiv(p.content));
         this.progress.complete();
         postSub.unsubscribe();
       },
       err => {
-
         this.progress.complete();
         postSub.unsubscribe();
       });
     },
     err => {
-
       this.progress.complete();
     });
   }
@@ -115,8 +111,9 @@ export class CommonComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.postRendered = true;
       
       setTimeout(() => {
-        this.changeLayoutOfPost();
-        this.removeAuthorInfo();
+       this.changeLayoutOfPost();
+       this.removeAuthorInfo();
+       this.fetchAuthorInfo();
       }, 0);
     }
   }
@@ -147,11 +144,7 @@ export class CommonComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   // change the layout of a post
   changeLayoutOfPost() {
-    this.reLayout('h2');
-    this.reLayout('img');
     this.reLayout('div');
-    this.reLayout('video');
-    this.reLayout('audio');
     this.reLayout('table');
     this.reLayout('figcaption');
     this.reLayout('ol');
@@ -166,16 +159,8 @@ export class CommonComponent implements OnInit, AfterViewChecked, OnDestroy {
       let i = 0;
       for (i = 0; i < tag.length; i++) {
         switch (tagName) {
-          case 'h2':
-            tag[i].style.fontFamily = 'SFUI';
-            tag[i].style.fontSize = '18px';
-            tag[i].style.fontWeight = '600';
-            break;
           case 'div':
             this.changeFormatOfCallOut(tag[i]);
-            break;
-          case 'video':
-            tag[i].style.backgroundColor = 'black';
             break;
           case 'figcaption':
             tag[i].innerHTML = this.changeFont(tag[i]);
@@ -280,7 +265,7 @@ export class CommonComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   // fetch an author/speaker's name
   fetchAuthorInfo() {
-    const parentTag = document.getElementById('tLoad');
+    const parentTag = this.postContent.nativeElement;
     const tag = parentTag.getElementsByTagName('p');
     const videoTag = parentTag.getElementsByTagName('video');
 
@@ -332,7 +317,7 @@ export class CommonComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   // remove author's info
   removeAuthorInfo() {
-    const parentTag = document.getElementById('contents');
+    const parentTag = this.postContent.nativeElement;
     const tag = parentTag.getElementsByTagName('p');
     const videoTag = parentTag.getElementsByTagName('video');
 

@@ -33,9 +33,8 @@
             </mat-menu>
         </div>
     </div>
-    <div id="tLoad" [innerHtml]="post.content" hidden>
-        {{fetchAuthorInfo()}}
-    </div>
+    <!-- <div id="tLoad" [innerHtml]="post.content" hidden>
+    </div> -->
     <div class="author" [class.author-container]="isAuthorVisible" fxLayout="row" fxLayoutAlign="start center">
         <div id="author-avatar">
             <span>By</span><img src="assets/images/logo-color.png">
@@ -49,7 +48,7 @@
             </p>
         </div>
     </div>
-    <div id="contents" #postContent class="inner-content" [innerHTML]="postSafeContent">
+    <div id="contents" #postContent class="inner-content" [innerHtml]="postSafeContent">
     </div>
     <a *ngIf="showReference" (click)="onClickReference()" [ngClass]="{'show-more-btn': showReferenceState === 'Show more', 'show-less-btn': showReferenceState === 'Show less'}">{{showReferenceState}}</a>
     <div class="review" fxLayout="column" fxLayoutAlign="center center" (click)="onAddReview(post.id, post.title, post.date)">
