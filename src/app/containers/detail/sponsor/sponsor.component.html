@@ -10,11 +10,11 @@
             <img src="../../../assets/images/sponsor/gsk-header.png" *ngIf="isGsk(post.tags)"/>
             <img src="../../../assets/images/sponsor/nobel-header.jpg" *ngIf="isNobel(post.tags)"/>
         </ng-template>
-        <img *ngIf="isGsk(post.tags)" class="inner-thumbnail" src = "assets/images/sponsor/gsk-banner.png"
+        <img *ngIf="isGsk(post.tags)" class="inner-thumbnail" src = "assets/images/sponsor/gsk-banner.jpg"
             (click)="onPostSponsor('gsk')">
-        <img *ngIf="isAlign(post.tags)" class="inner-thumbnail" src = "assets/images/sponsor/align-banner.png"
+        <img *ngIf="isAlign(post.tags)" class="inner-thumbnail" src = "assets/images/sponsor/align-banner.jpg"
             (click)="onPostSponsor('align')">
-        <img *ngIf="isNobel(post.tags)" class="inner-thumbnail" src = "assets/images/sponsor/nobel-banner.png"
+        <img *ngIf="isNobel(post.tags)" class="inner-thumbnail" src = "assets/images/sponsor/nobel-banner.jpg"
             (click)="onPostSponsor('nobel')">
     </div>
     <div class="inner-content" fxLayout="row">
