@@ -35,10 +35,7 @@
     </div>
     <!-- <div id="tLoad" [innerHtml]="post.content" hidden>
     </div> -->
-    <div class="author" [class.author-container]="isAuthorVisible" fxLayout="row" fxLayoutAlign="start center">
-        <div id="author-avatar">
-            <span>By</span><img src="assets/images/logo-color.png">
-        </div>
+    <div class="author" #authorContent [class.author-container]="isAuthorVisible" fxLayout="row" fxLayoutAlign="start center">
         <div class="author-area" fxLayout="column" fxLayoutAlign="start start">
             <p id="author-name">
                 {{authorName}}
