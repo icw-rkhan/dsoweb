@@ -46,10 +46,13 @@
     </div>
     <div class="author" #authorContent [class.author-container]="isAuthorVisible" fxLayout="row" fxLayoutAlign="start center">
         <div class="author-area" fxLayout="column" fxLayoutAlign="start start">
-            <p id="author-name">
+            <div id="author-avatar" *ngIf="authorName && authorName.indexOf('DSODentist') > -1">
+                <span>By</span><img src="assets/images/logo-color.png">
+            </div>
+            <p id="author-name" *ngIf="authorName && authorName.indexOf('DSODentist') === -1">
                 {{authorName}}
             </p>
-            <p id="author-info">
+            <p id="author-info" *ngIf="authorName && authorName.indexOf('DSODentist') === -1">
                 {{authorInfo}}
             </p>
         </div>
