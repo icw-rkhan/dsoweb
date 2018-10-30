@@ -3,7 +3,8 @@
   <nav class="footer" [ngClass]="{'hidden': !showNavBar}" mat-tab-nav-bar>
     <a mat-tab-link *ngFor="let link of navFooterLinks" [routerLink]="link.route" [class.active]="isActive(link)">
       <div class="tab">
-        <mat-icon>{{link.icon}}</mat-icon>
+        <img [src]="link.icon" *ngIf="!isActive(link)" />
+        <img [src]="link.iconActive" *ngIf="isActive(link)" />
         <span>{{link.label}}</span>
       </div>
     </a>
