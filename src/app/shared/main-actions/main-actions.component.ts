@@ -31,25 +31,29 @@ export class MainActionsComponent implements OnInit {
       id: 0,
       label: 'For You',
       route: '/posts',
-      icon: 'receipt'
+      icon: 'assets/images/feed/feed_inactive.png',
+      iconActive: 'assets/images/feed/feed_active.png'
     });
     this.navFooterLinks.push({
       id: 1,
       label: 'Search',
       route: '/search',
-      icon: 'search'
+      icon: 'assets/images/feed/search_inactive.png',
+      iconActive: 'assets/images/feed/search_active.png'
     });
     this.navFooterLinks.push({
       id: 2,
       label: 'Category',
       route: '/category',
-      icon: 'view_list'
+      icon: 'assets/images/feed/category_inactive.png',
+      iconActive: 'assets/images/feed/category_active.png'
     });
     this.navFooterLinks.push({
       id: 3,
       label: 'Bookmarks',
       route: '/bookmarks',
-      icon: 'bookmarks'
+      icon: 'assets/images/feed/bookmark_inactive.png',
+      iconActive: 'assets/images/feed/bookmark_active.png'
     });
   }
 
