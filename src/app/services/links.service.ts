@@ -34,7 +34,7 @@ export class NavLinksService {
       state: 'inactive'
     });
     this.links.push({
-      label: 'Unite',
+      label: 'UNITE',
       icon: 'unite',
       route: '#',
       state: 'inactive'
