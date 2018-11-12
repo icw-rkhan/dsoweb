@@ -136,13 +136,7 @@ export class FeedCardComponent {
 
   // filter categories
   filterCategories(categories) {
-    if (categories && categories.length > 1) {
-      return categories[1].name;
-    } else if (categories && categories.length === 1) {
-      return categories[0].name;
-    }
-
-    return '';
+    return categories[0].name;
   }
 
   // check gsk tag

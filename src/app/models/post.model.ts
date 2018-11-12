@@ -14,26 +14,11 @@ export class Post implements Serializable<Post> {
   thumbnail: string;
   link: string;
   date: Date;
-  categoryId: number;
   categories: Category[];
   format: string;
   bookmarked: boolean;
   bookmarkId: string;
   tags: number[];
-
-  setCategoryId(category) {
-    this.categoryId = category;
-  }
-
-  // check the category is general
-  isGeneralCategory(categoryId) {
-    const generalCategires = ['28', '29', '30', '31', '194', '195', '196'];
-
-    if (generalCategires.includes(categoryId)) {
-      return true;
-    }
-    return false;
-  }
 
   deserialize(data: any): Post {
     let thumbnailObj = data['_embedded'] && data['_embedded']['wp\:featuredmedia'] ? data['_embedded']['wp\:featuredmedia'] : {};
@@ -52,15 +37,13 @@ export class Post implements Serializable<Post> {
         categories.push(new Category().deserialize(c))
       );
 
-    // filter categories
-    let filterCategories = [];
-
-    if (this.categoryId && !this.isGeneralCategory(this.categoryId)) {
-      _.flatMap(categories).filter(item => item['id'] === this.categoryId)
-      .forEach(c => filterCategories.push(c));
-    } else {
-      filterCategories = categories;
-    }
+    const filterCategories = [];
+    // remove the content type in the category list
+    categories.map(item => {
+      if (!item.name.includes('*')) {
+        filterCategories.push(item);
+      }
+    });
 
     // Remove link-more
     const cleanTextExcerpt = data.excerpt.rendered.replace(/<p[^>]* class=\"link-more\">(.*?)<\/p>/g, '');

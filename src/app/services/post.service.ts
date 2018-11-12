@@ -47,12 +47,7 @@ export class PostService {
     }
 
     return this.http.get(url).pipe(
-      map((response: any[]) => response.map(post => {
-        const postObj = new Post();
-        postObj.setCategoryId(args.categoryId);
-
-        return postObj.deserialize(post);
-      }))
+      map((response: any[]) => response.map(post => new Post().deserialize(post)))
     );
   }
 
