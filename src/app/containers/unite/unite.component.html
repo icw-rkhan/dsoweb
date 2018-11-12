@@ -1,0 +1,9 @@
+<mat-sidenav-container class="sidenav-container">
+<mat-sidenav #sidenav mode="push">
+    <dso-sidebar (toggleMenu)="sidenav.toggle()"></dso-sidebar>
+</mat-sidenav>
+<mat-sidenav-content class="sidenav-content">
+    <dso-toolbar (toggleMenu)="sidenav.toggle()"></dso-toolbar>
+    <div></div>
+</mat-sidenav-content>
+</mat-sidenav-container>

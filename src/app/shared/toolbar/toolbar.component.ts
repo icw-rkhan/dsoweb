@@ -63,6 +63,10 @@ export class ToolbarComponent {
           this.title = 'PROFILE';
           this.btnTitle = 'menu';
 
+        } else if (event.url.includes('/unite')) {
+          this.title = 'UNITE';
+          this.btnTitle = 'keyboard_backspace';
+
         } else {
           this.title = 'DSODENTIST';
           this.btnTitle = 'menu';

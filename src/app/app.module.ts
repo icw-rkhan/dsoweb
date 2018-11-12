@@ -17,6 +17,7 @@ import { CategoryPageModule } from './containers/category/category-page.module';
 import { BookmarksPageModule } from './containers/bookmarks/bookmarks-page.module';
 import { ProfileModule } from './containers/profile/profile.module';
 import { EditProfileModule } from './containers/edit-profile/edit-profile.module';
+import { UniteModule } from './containers/unite/unite.module';
 import { AuthGuard } from './services/auth/auth-guard';
 import { environment } from '../environments/environment';
 import { TokenInterceptor } from './services/auth/auth.interceptor';
@@ -54,6 +55,7 @@ export class HammerConfig extends HammerGestureConfig {
     BookmarksPageModule,
     ProfileModule,
     EditProfileModule,
+    UniteModule,
     AppRoutingModule,
     MatDatepickerModule
   ],
