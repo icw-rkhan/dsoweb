@@ -83,7 +83,7 @@ export class PostsPageComponent implements OnInit, OnDestroy {
     const email = this.authService.getUserInfo().user_name;
     let postService = this.postService.posts({
       page,
-      per_page: 5
+      per_page: 3
     });
 
     if (!_.isUndefined(this.sponsorId)) {
@@ -91,13 +91,13 @@ export class PostsPageComponent implements OnInit, OnDestroy {
         categoryId: this.typeId,
         sponsorId: this.sponsorId,
         page,
-        per_page: 5
+        per_page: 3
       });
     } else if (!_.isUndefined(this.typeId)) {
       postService = this.postService.fetchByCategory({
         categoryId: this.typeId,
         page,
-        per_page: 5
+        per_page: 3
       });
     }
     // Join bookmarks and post
