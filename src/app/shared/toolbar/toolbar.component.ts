@@ -72,20 +72,9 @@ export class ToolbarComponent {
           this.btnTitle = 'menu';
         }
 
-        this.removeADSCode();
-
         this.cdr.markForCheck();
       }
     });
-  }
-
-  removeADSCode() {
-    const old_childs = document.getElementsByClassName('ads_script');
-
-    if (old_childs.length > 1) {
-      document.head.removeChild(old_childs[0]);
-      document.head.removeChild(old_childs[0]);
-    }
   }
 
   onClickEvent() {
