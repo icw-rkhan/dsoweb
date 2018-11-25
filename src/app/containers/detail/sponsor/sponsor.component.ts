@@ -25,6 +25,7 @@ import { environment } from '../../../../environments/environment';
 export class SponsorComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   post: Post;
+  adId: string;
   postSafeContent: SafeHtml;
   postRendered: boolean;
   rate: number;
@@ -92,11 +93,18 @@ export class SponsorComponent implements OnInit, AfterViewChecked, OnDestroy {
       });
 
       const postSub = this.postService.fetchById(this.postId).subscribe(p => {
+        p.content = this.modifyADs(p.content);
+        p.content = this.changePreToDiv(p.content);
         this.post = p;
 
         // change Pre tag to Div tag
         this.setDropcap();
-        this.postSafeContent = this.sanitizeHTML(this.changePreToDiv(p.content));
+        this.postSafeContent = this.sanitizeHTML(this.post.content);
+
+        const element = this.postContent.nativeElement;
+        const fragment = document.createRange().createContextualFragment(this.post.content);
+        element.appendChild(fragment);
+
         this.progress.complete();
         postSub.unsubscribe();
       },
@@ -118,6 +126,34 @@ export class SponsorComponent implements OnInit, AfterViewChecked, OnDestroy {
        this.removeAuthorInfo();
       }, 0);
     }
+  }
+
+  modifyADs(html: string) {
+    const matchId = html.match(/(id="placement.[^)]*._)/g);
+    if (matchId && matchId.length > 0) {
+      this.adId = matchId[0].replace('id="', '');
+      this.adId = `${this.adId}0`;
+    }
+
+    const matchAD = html.match(/<p>.*\n<script/g);
+    if (this.adId && matchAD && matchAD.length > 0) {
+      let t = matchAD[0];
+      t = t.replace('<p>', `<p id="${this.adId}">`);
+
+      html = html.replace(/<p>.*\n<script/, t);
+    } else {
+      const matchADh = html.match(/<h2>.*\n<script/g);
+      if (this.adId && matchADh && matchADh.length > 0) {
+        let t = matchADh[0];
+        t = t.replace('<h2>', `<h2 id="${this.adId}">`);
+
+        html = html.replace(/<h2>.*\n<script/, t);
+      }
+    }
+
+    html = html.replace(/(document.write[^)]*.);/g, '');
+
+    return html;
   }
 
   setDropcap(): void {
