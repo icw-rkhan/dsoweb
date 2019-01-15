@@ -1,12 +1,8 @@
 .placeholder {
-    width: 100%;
+    height: calc(100vh - 45px);
     background-image: url('/assets/images/bg-2.jpg');
+    background-position: top center;
     background-size: cover;
-    background-position: center center;
     background-repeat: no-repeat;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
+    overflow: hidden;
 }
