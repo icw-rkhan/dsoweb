@@ -19,6 +19,8 @@ import { ProfileModule } from './containers/profile/profile.module';
 import { EditProfileModule } from './containers/edit-profile/edit-profile.module';
 import { UniteModule } from './containers/unite/unite.module';
 import { CareerModule } from './containers/career/career.module';
+import { EducationModule } from './containers/education/education.module';
+import { EventModule } from './containers/event/event.module';
 import { AuthGuard } from './services/auth/auth-guard';
 import { environment } from '../environments/environment';
 import { TokenInterceptor } from './services/auth/auth.interceptor';
@@ -58,6 +60,8 @@ export class HammerConfig extends HammerGestureConfig {
     EditProfileModule,
     UniteModule,
     CareerModule,
+    EducationModule,
+    EventModule,
     AppRoutingModule,
     MatDatepickerModule
   ],

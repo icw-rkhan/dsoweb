@@ -71,6 +71,14 @@ export class ToolbarComponent {
           this.title = 'CAREER';
           this.btnTitle = 'menu';
 
+        } else if (event.url.includes('/education')) {
+          this.title = 'EDUCATION';
+          this.btnTitle = 'menu';
+
+        } else if (event.url.includes('/event')) {
+          this.title = 'EVENTS';
+          this.btnTitle = 'menu';
+
         } else {
           this.title = 'DSODENTIST';
           this.btnTitle = 'menu';
